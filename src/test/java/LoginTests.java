@@ -14,6 +14,7 @@ public class LoginTests {
     private final String usernameInputId = "#user-name";
     private final String passwordInputId = "#password";
     private final String loginButtonId = "#login-button";
+    private final String errorMessageId = "[data-test='error']";
 
     //Initialization
     @BeforeAll
@@ -53,8 +54,9 @@ public class LoginTests {
         page.click(loginButtonId);
         //check if user is logged in
         assertThat(page.url()).isNotEqualTo("https://www.saucedemo.com/inventory.html");
+        assertThat(page.textContent(errorMessageId))
+                .isEqualTo("Epic sadface: Username and password do not match any user in this service");
     }
-
 
     //Cleanup
     @AfterEach
