@@ -1,6 +1,8 @@
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class LoginTests {
 
     private static Playwright playwright;
@@ -38,6 +40,7 @@ public class LoginTests {
         //click submit button
         page.click(loginButtonId);
         //check if user is logged in
+        assertThat(page.url()).isEqualTo("https://www.saucedemo.com/inventory.html");
     }
 
     //Tests
@@ -49,6 +52,7 @@ public class LoginTests {
         //click submit button
         page.click(loginButtonId);
         //check if user is logged in
+        assertThat(page.url()).isNotEqualTo("https://www.saucedemo.com/inventory.html");
     }
 
 
