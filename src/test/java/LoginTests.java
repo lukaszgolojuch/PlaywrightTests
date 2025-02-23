@@ -15,14 +15,12 @@ public class LoginTests extends BaseTest {
         inventoryPage = new InventoryPage(page);
     }
 
-    //Tests
     @Test
     public void testValidLogin() {
         loginPage.login("standard_user", "secret_sauce");
         inventoryPage.assertPageIsOpened(true);
     }
 
-    //Tests
     @Test
     public void testInvalidLogin() {
         loginPage.login("standard_user", "invalidPassword");
