@@ -37,6 +37,7 @@ public class LoginTests {
         page.fill(passwordInputId, "secret_sauce");
         //click submit button
         page.click(loginButtonId);
+
         //check if user is logged in
     }
 
