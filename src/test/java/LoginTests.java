@@ -8,6 +8,11 @@ public class LoginTests {
     private BrowserContext context;
     private Page page;
 
+    //Locators
+    private final String usernameInputId = "#user-name";
+    private final String passwordInputId = "#password";
+    private final String loginButtonId = "#login-button";
+
     //Initialization
     @BeforeAll
     public static void setup() {
@@ -27,6 +32,12 @@ public class LoginTests {
     @Test
     public void testValidLogin() {
         page.navigate("https://www.saucedemo.com");
+        //fill login inputs
+        page.fill(usernameInputId, "standard_user");
+        page.fill(passwordInputId, "secret_sauce");
+        //click submit button
+        page.click(loginButtonId);
+        //check if user is logged in
     }
 
     //Cleanup
