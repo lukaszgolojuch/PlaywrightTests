@@ -26,20 +26,31 @@ public class LoginTests {
     public void createContext() {
         context = browser.newContext();
         page = context.newPage();
+        page.navigate("https://www.saucedemo.com");
     }
 
     //Tests
     @Test
     public void testValidLogin() {
-        page.navigate("https://www.saucedemo.com");
         //fill login inputs
         page.fill(usernameInputId, "standard_user");
         page.fill(passwordInputId, "secret_sauce");
         //click submit button
         page.click(loginButtonId);
-
         //check if user is logged in
     }
+
+    //Tests
+    @Test
+    public void testInvalidLogin() {
+        //fill login inputs
+        page.fill(usernameInputId, "standard_user");
+        page.fill(passwordInputId, "invalid_password");
+        //click submit button
+        page.click(loginButtonId);
+        //check if user is logged in
+    }
+
 
     //Cleanup
     @AfterEach
