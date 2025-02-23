@@ -1,4 +1,5 @@
 import com.microsoft.playwright.*;
+import org.example.page.InventoryPage;
 import org.example.page.LoginPage;
 import org.junit.jupiter.api.*;
 
@@ -11,6 +12,7 @@ public class LoginTests {
     private BrowserContext context;
     private Page page;
     private LoginPage loginPage;
+    private InventoryPage inventoryPage;
 
     //Initialization
     @BeforeAll
@@ -26,6 +28,7 @@ public class LoginTests {
         context = browser.newContext();
         page = context.newPage();
         loginPage = new LoginPage(page);
+        inventoryPage = new InventoryPage(page);
         page.navigate("https://www.saucedemo.com");
     }
 
@@ -33,7 +36,7 @@ public class LoginTests {
     @Test
     public void testValidLogin() {
         loginPage.login("standard_user", "secret_sauce");
-        assertThat(page.url()).isEqualTo("https://www.saucedemo.com/inventory.html");
+        inventoryPage.assertPageIsOpened(true);
     }
 
     //Tests
@@ -41,7 +44,7 @@ public class LoginTests {
     public void testInvalidLogin() {
         loginPage.login("standard_user", "invalidPassword");
         loginPage.assertErrorMessageDisplayed("Epic sadface: Username and password do not match any user in this service");
-        assertThat(page.url()).isNotEqualTo("https://www.saucedemo.com/inventory.html");
+        inventoryPage.assertPageIsOpened(false);
     }
 
     //Cleanup
