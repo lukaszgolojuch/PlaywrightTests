@@ -1,4 +1,5 @@
 import com.microsoft.playwright.*;
+import org.example.page.LoginPage;
 import org.junit.jupiter.api.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,12 +10,7 @@ public class LoginTests {
     private static Browser browser;
     private BrowserContext context;
     private Page page;
-
-    //Locators
-    private final String usernameInputId = "#user-name";
-    private final String passwordInputId = "#password";
-    private final String loginButtonId = "#login-button";
-    private final String errorMessageId = "[data-test='error']";
+    private LoginPage loginPage;
 
     //Initialization
     @BeforeAll
@@ -29,33 +25,23 @@ public class LoginTests {
     public void createContext() {
         context = browser.newContext();
         page = context.newPage();
+        loginPage = new LoginPage(page);
         page.navigate("https://www.saucedemo.com");
     }
 
     //Tests
     @Test
     public void testValidLogin() {
-        //fill login inputs
-        page.fill(usernameInputId, "standard_user");
-        page.fill(passwordInputId, "secret_sauce");
-        //click submit button
-        page.click(loginButtonId);
-        //check if user is logged in
+        loginPage.login("standard_user", "secret_sauce");
         assertThat(page.url()).isEqualTo("https://www.saucedemo.com/inventory.html");
     }
 
     //Tests
     @Test
     public void testInvalidLogin() {
-        //fill login inputs
-        page.fill(usernameInputId, "standard_user");
-        page.fill(passwordInputId, "invalid_password");
-        //click submit button
-        page.click(loginButtonId);
-        //check if user is logged in
+        loginPage.login("standard_user", "invalidPassword");
+        loginPage.assertErrorMessageDisplayed("Epic sadface: Username and password do not match any user in this service");
         assertThat(page.url()).isNotEqualTo("https://www.saucedemo.com/inventory.html");
-        assertThat(page.textContent(errorMessageId))
-                .isEqualTo("Epic sadface: Username and password do not match any user in this service");
     }
 
     //Cleanup
